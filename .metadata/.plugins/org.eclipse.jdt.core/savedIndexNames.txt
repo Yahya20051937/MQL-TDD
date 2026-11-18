@@ -1,0 +1,19 @@
+INDEX VERSION 1.134+/Users/elgnaouiyahya/eclipse-workspace/tdd/.metadata/.plugins/org.eclipse.jdt.core
+708774083.index
+4005634679.index
+3369052355.index
+1865797976.index
+2205861680.index
+1415051672.index
+3602004564.index
+1775351527.index
+4252654851.index
+588378227.index
+598027202.index
+1000303567.index
+3473301161.index
+3103022215.index
+3682137892.index
+2841408929.index
+2325326872.index
+3180563057.index

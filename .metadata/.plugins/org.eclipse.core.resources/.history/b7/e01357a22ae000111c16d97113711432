@@ -1,0 +1,85 @@
+package org.mql.project.management.tdd;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+import org.mql.project.management.exceptions.ProjectNotFoundException;
+import org.mql.project.management.models.Collaborator;
+import org.mql.project.management.models.Project;
+import org.mql.project.management.services.ProjectManagementService;
+
+class ProjectManagementServiceTests {
+	
+	private ProjectManagementService service;
+
+	@Test
+	void assignWhenProjectNotFound() {
+		// ARRANGE
+		service = new ProjectManagementService();
+		Collaborator collaborator = new Collaborator(100, "Yahya  El Gnaoui", 10, "DEV");
+		
+		// ACT && ASSERT
+		assertThrows(ProjectNotFoundException.class, () -> service.assignTDD(collaborator, 0));
+		
+	}
+	
+	@Test
+	void assignWhenProjectIsNotFull() throws Exception {
+		// ARRANGE
+		service = new ProjectManagementService();
+		Collaborator c1 = new Collaborator(100, "Yahya  El Gnaoui", 10, "DEV");
+		Collaborator c2 = new Collaborator(101, "Bilal El Arfaoui", 10, "DEV");
+		Collaborator c3 = new Collaborator(102, "Widad El Bourkadi", 10, "DEV");
+		Collaborator c4 = new Collaborator(13, "Yassine El Gadi", 10, "DEV");
+		
+		Project project = new Project(1, "E-Commerce", "Java, Angular, DevOps");
+		project.addCollaborator(c1);
+		project.addCollaborator(c2);
+		project.addCollaborator(c3);
+		service.addProject(project);
+		
+		// AC
+		boolean result = service.assignTDD(c3, 1);
+		
+		// ASSERT
+		assertFalse(result);
+		assertEquals(service.findProjectById(1).getCollaborators().size(), 3);
+		assertTrue(service.findProjectById(1).getCollaborators().contains(c4));
+		
+		
+	}
+	
+	@Test
+	void assignWhenCollaborateurIsExperienced() throws Exception {
+		service = new ProjectManagementService();
+		Collaborator c5 = new Collaborator(13, "Yassine El Gadi", 2, "DEV");
+		Project project = new Project(1, "E-Commerce", "Java, Angular, DevOps");
+		service.addProject(project);
+		
+		// ACT
+		boolean result = service.assignTDD(c5, 1);
+		
+		assertFalse(result);
+		assertEquals(service.findProjectById(1).getCollaborators().size(), 0);
+		
+		
+	}
+	
+	@Test
+	void assignSucesss() throws Exception {
+		service = new ProjectManagementService();
+		Collaborator c5 = new Collaborator(13, "Yassine El Gadi", 3, "DEV");
+		Project project = new Project(1, "E-Commerce", "Java, Angular, DevOps");
+		service.addProject(project);
+		
+		// ACT
+		boolean result = service.assignTDD(c5, 1);
+		
+		assertTrue(result);
+		assertEquals(service.findProjectById(1).getCollaborators().size(), 1);
+		assertTrue(service.findProjectById(1).getCollaborators().contains(c5));
+		
+		
+	}
+
+}

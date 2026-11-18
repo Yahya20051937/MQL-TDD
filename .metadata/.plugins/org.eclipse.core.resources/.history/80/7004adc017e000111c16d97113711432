@@ -1,0 +1,52 @@
+package org.mql.project.management.tests;
+
+
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.jupiter.api.Test;
+import org.mql.project.management.models.Collaborator;
+import org.mql.project.management.models.Project;
+import org.mql.project.management.services.ProjectManagementService;
+
+
+class ProjectManagementServiceTests {
+	
+	private ProjectManagementService service;
+	
+	@Test 
+	void testAssignFailure(){
+		// ARRANGE
+		this.service = new ProjectManagementService();
+		Collaborator collaborator = new Collaborator(100, "Yahya  El Gnaoui", 10, "DEV");
+	
+
+		// ACT :
+		boolean result = service.assign(collaborator, 0);
+
+		// ASSERT.
+		assertFalse(result);
+		
+
+
+	}
+
+	@Test 
+	void testAssignSuccess(){
+		// ARRANGE
+		this.service = new ProjectManagementService();
+		Project project = new Project(10, "Some Project", "Some Description");
+		Collaborator collaborator = new Collaborator(100, "Youssef Alami", 3, "DEV");
+		this.service.addProject(project);
+
+		// ACT :
+		boolean result = service.assign(collaborator, 10);
+
+		// ASSERT.
+		assertTrue(result);
+		
+
+	}
+	
+}

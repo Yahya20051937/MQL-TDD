@@ -1,0 +1,14 @@
+package org.mql.project.management.tdd;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class ProjectManagementServiceTests {
+
+	@Test
+	void test() {
+		fail("Not yet implemented");
+	}
+
+}

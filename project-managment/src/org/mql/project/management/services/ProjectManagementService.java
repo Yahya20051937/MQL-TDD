@@ -1,0 +1,86 @@
+package org.mql.project.management.services;
+
+import java.util.List;
+import java.util.Vector;
+
+import org.mql.project.management.exceptions.ProjectNotFoundException;
+import org.mql.project.management.models.Collaborator;
+import org.mql.project.management.models.Project;
+
+public class ProjectManagementService {
+    private List<Collaborator> collaboratorStore;
+    private List<Project> projectStore;
+    
+    public static final int MAX_COLLABORATORS = 3;
+    public static final int MIN_YEARS_OF_EXPERIENCE = 3;
+
+    
+    public ProjectManagementService() {
+        collaboratorStore = new Vector<>();
+        projectStore = new Vector<>();
+    }
+
+    public void addCollaborator(Collaborator c){
+        this.collaboratorStore.add(c);
+    }
+
+    public void addProject(Project p){
+        this.projectStore.add(p);
+    }
+
+    public Project findProjectById(int p){
+        for (Project project : projectStore) {
+            if (project.getId() == p){
+                return project;
+            }
+        }
+        return null;
+    }
+    
+    
+    
+    public boolean assign(Collaborator collaborator, int projecId){
+        Project project = this.findProjectById(projecId);
+        if (project == null || collaborator == null)
+            return false;
+        project.addCollaborator(collaborator);
+        return true;
+    }
+    
+ // Assign in a tdd way.
+
+    // Business rules
+    // > Si le project n'existe pas,, on leve un exception (DONE)
+    // > On affecte un collaborateur a un projet que si le projet ne depasse pas les 3 collaborateurs.
+    // > Si le colab a 3 ans ou plu.
+    
+    public boolean assignTDD(Collaborator collaborator, int projectId) throws Exception{
+    	Project project = this.findProjectById(projectId);
+    	if (project == null) {
+    		throw new ProjectNotFoundException();
+    	}
+    	if (project.getCollaborators().size() == MAX_COLLABORATORS || collaborator.getYearsOfExperience() < MIN_YEARS_OF_EXPERIENCE)
+    		return false;
+    	
+    	addCollaborator(collaborator);
+    	project.addCollaborator(collaborator);
+    	
+    	return true;
+    }
+
+    public List<Collaborator> getCollaboratorStore() {
+        return collaboratorStore;
+    }
+
+    public void setCollaboratorStore(List<Collaborator> collaboratorStore) {
+        this.collaboratorStore = collaboratorStore;
+    }
+
+    public List<Project> getProjectStore() {
+        return projectStore;
+    }
+
+    public void setProjectStore(List<Project> projectStore) {
+        this.projectStore = projectStore;
+    }
+}
